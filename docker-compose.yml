@@ -1,0 +1,17 @@
+version: "3.8"
+
+services:
+  summarizer:
+    build: .
+    container_name: summarizer_app
+    environment:
+      - PYTHONUNBUFFERED=1  # Ensures real-time logging output
+    env_file:
+      - .env  # Loads environment variables from .env file
+    volumes:
+      - .:/app  # Mounts the local directory so changes reflect immediately
+    working_dir: /app
+    ports:
+      - "8501:8501"  # Maps Streamlit port to the host
+    # command: ["python", "summarizer.py"]
+    command: ["streamlit", "run", "app.py", "--server.port=8501", "--server.address=0.0.0.0"]
